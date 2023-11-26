@@ -1,11 +1,10 @@
-const express = require('express');
+const express = require("express");
 const app = express();
-const tasks = require('./routes/tasks');
-
-
-
+const tasks = require("./routes/tasks");
+const connectDB = require("./db/connect");
+require("dotenv").config();
 //routes
-app.use('/api/v1/tasks', tasks);
+app.use("/api/v1/tasks", tasks);
 // app.get('/api/v1/tasks') ------ get all tasks
 // app.post('/api/v1/tasks') ----- create a new task
 // app.get('/api/v1/tasks/:id') ----- get single task
@@ -14,6 +13,14 @@ app.use('/api/v1/tasks', tasks);
 
 const port = 5000;
 
-app.listen(port,()=>{
-    console.log(`Serving on ${port}`);
-});
+const start = async () => {
+  try {
+    await connectDB(process.env.MONGO_URI);
+    app.listen(port, () => {
+      console.log(`Serving on ${port}`);
+    });
+  } catch (error) {
+    console.log(error);
+  }
+};
+start();
