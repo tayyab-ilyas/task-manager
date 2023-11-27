@@ -3,6 +3,11 @@ const app = express();
 const tasks = require("./routes/tasks");
 const connectDB = require("./db/connect");
 require("dotenv").config();
+
+//middlewares
+app.use(express.static("./public"));
+app.use(express.json());
+
 //routes
 app.use("/api/v1/tasks", tasks);
 // app.get('/api/v1/tasks') ------ get all tasks
